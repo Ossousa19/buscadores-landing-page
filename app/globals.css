@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+/* Tokens da Sala dos Buscadores — tirados do CSS da plataforma (tema "sólido claro" e "sólido escuro") */
+@theme {
+  --color-canvas: #ebdcc1;
+  --color-damasco: #f6e7ce;
+  --color-marfim: #fdf8ef;
+  --color-bordo: #390007;
+  --color-bordo-2: #4a0a12;
+  --color-grafite: #111313;
+  --color-grafite-2: #1a1c1c;
+  --color-noite: #0b0c0c;
+  --color-card-escuro: #303635;
+  --color-ouro: #d3b36e;
+  --color-ouro-claro: #f3dc9b;
+  --color-ouro-tinta: #493310;
+  --color-ouro-textura: #d3c759;
+  --color-areia: #e3c998;
+  --color-marca: #634018;
+  --color-texto-2: #4c463b;
+  --color-texto-3: #6b665e;
+  --color-cinza-botao: #d4d5d5;
+  --color-iniciante: #f5e5cf;
+  --color-iniciante-tinta: #72512d;
+  --color-intermediario: #f7a900;
+  --color-intermediario-tinta: #4a2600;
+
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-serif: "Source Serif 4 Variable", Georgia, serif;
+  --font-sans: "Inter Variable", -apple-system, "Segoe UI", sans-serif;
+
+  --ease-galeria: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background: var(--color-noite);
+    color: var(--color-grafite);
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-bordo) 16%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ouro);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Títulos monumentais: Fraunces Light, eixo óptico acompanhando o tamanho do texto */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+}
+
+/* Vidro escuro usado nos painéis da plataforma */
+@utility vidro-escuro {
+  background: color-mix(in srgb, var(--color-grafite) 62%, transparent);
+  backdrop-filter: blur(24px) saturate(1.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-damasco) 26%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 12px 32px -12px rgb(0 0 0 / 0.25);
+}
+
+/* Orbe dourado do assistente */
+@utility orbe {
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 45%, #ffe080 0%, #d3b36e 55%, #634018 100%);
+  box-shadow:
+    0 0 0 2px rgb(255 224 128 / 0.7),
+    0 0 28px rgb(255 190 32 / 0.5);
+}
+
+/* ---------- Movimento ----------
+   Lento e sem quique: curador de museu, não vitrine. Cada animação vem de uma ideia do site:
+   a porta abre (Hero), a escada sobe (Trilhas), a descoberta acende (Conquistas).
+   Estados ocultos só existem com .anima (JS ativo, ver components/ui/movimento.tsx) e sem
+   prefers-reduced-motion, então o conteúdo nunca depende da animação para aparecer. */
+
+/* Máscara das linhas de título: folga para ascendentes e descendentes da Fraunces */
+.linha {
+  display: block;
+  overflow: hidden;
+  padding: 0.3em 0.1em;
+  margin: -0.3em -0.1em;
+}
+/* Margens negativas de irmãos colapsam em vez de somar */
+.linha + .linha {
+  margin-top: -0.6em;
+}
+
+@keyframes linha-sobe {
+  from {
+    transform: translateY(115%);
+  }
+}
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes porta-assenta {
+  from {
+    scale: 1.09;
+  }
+}
+@keyframes fundo-acompanha {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 14%;
+  }
+}
+@keyframes escada-acompanha {
+  from {
+    translate: 0 -4%;
+  }
+  to {
+    translate: 0 4%;
+  }
+}
+@keyframes orbe-respira {
+  50% {
+    box-shadow:
+      0 0 0 2px rgb(255 224 128 / 0.85),
+      0 0 44px rgb(255 190 32 / 0.72);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+
+  /* Hero: a abertura é o único momento encenado no carregamento */
+  .hero-fundo {
+    animation: porta-assenta 2200ms var(--ease-galeria) both;
+  }
+  .hero-linha {
+    animation: linha-sobe 1200ms var(--ease-galeria) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .hero-surge {
+    animation: surge 900ms var(--ease-galeria) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* O assistente está sempre disponível: o orbe respira devagar */
+  .orbe {
+    animation: orbe-respira 4800ms ease-in-out infinite;
+  }
+
+  /* Comparar: ao trocar de tema, a mesa se rearruma */
+  .troca {
+    animation: surge 520ms var(--ease-galeria) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  /* FAQ: a resposta abre em vez de saltar */
+  details::details-content {
+    block-size: 0;
+    opacity: 0;
+    overflow: clip;
+    transition:
+      block-size 340ms var(--ease-galeria),
+      opacity 240ms linear,
+      content-visibility 340ms allow-discrete;
+  }
+  details[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+
+  /* Revelações ao rolar */
+  [data-revelar="titulo"] .linha > span {
+    transition: transform 1100ms var(--ease-galeria);
+  }
+  [data-revelar="titulo"] .linha + .linha > span {
+    transition-delay: 110ms;
+  }
+  .anima [data-revelar="titulo"]:not([data-visivel]) .linha > span {
+    transform: translateY(115%);
+  }
+
+  [data-revelar="rotulo"] .fio {
+    transform-origin: left;
+    transition: transform 900ms var(--ease-galeria);
+  }
+  [data-revelar="rotulo"] .fio-texto {
+    transition: opacity 700ms linear 200ms;
+  }
+  .anima [data-revelar="rotulo"]:not([data-visivel]) .fio {
+    transform: scaleX(0);
+  }
+  .anima [data-revelar="rotulo"]:not([data-visivel]) .fio-texto {
+    opacity: 0;
+  }
+
+  [data-revelar="subir"] {
+    transition:
+      opacity 800ms linear,
+      transform 1000ms var(--ease-galeria);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  .anima [data-revelar="subir"]:not([data-visivel]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  /* Curadoria: a gravura se descobre como uma cortina puxada */
+  [data-revelar="cortina"] .cortina-imagem {
+    transition:
+      clip-path 1400ms var(--ease-galeria),
+      scale 1800ms var(--ease-galeria);
+  }
+  [data-revelar="cortina"] .cortina-legenda {
+    transition:
+      opacity 600ms linear 700ms,
+      transform 900ms var(--ease-galeria) 700ms;
+  }
+  .anima [data-revelar="cortina"]:not([data-visivel]) .cortina-imagem {
+    clip-path: inset(0 100% 0 0);
+    scale: 1.08;
+  }
+  .anima [data-revelar="cortina"]:not([data-visivel]) .cortina-legenda {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  /* Trilhas: os degraus sobem do chão, um de cada vez. É o momento mais marcante da página */
+  [data-revelar="escada"] .degrau {
+    transition:
+      transform 1100ms var(--ease-galeria),
+      opacity 500ms linear;
+    transition-delay: calc(var(--i, 0) * 130ms);
+  }
+  .anima [data-revelar="escada"]:not([data-visivel]) .degrau {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  @media (min-width: 64rem) {
+    .anima [data-revelar="escada"]:not([data-visivel]) .degrau {
+      opacity: 1;
+      transform: translateY(100%);
+    }
+  }
+
+  /* Conquistas: cada gema acende em sequência */
+  [data-revelar="gemas"] .gema {
+    transition:
+      filter 900ms ease-out,
+      box-shadow 900ms ease-out,
+      transform 900ms var(--ease-galeria);
+    transition-delay: calc(var(--i, 0) * 150ms);
+  }
+  [data-revelar="gemas"] .gema-texto {
+    transition: opacity 600ms linear;
+    transition-delay: calc(var(--i, 0) * 150ms + 150ms);
+  }
+  .anima [data-revelar="gemas"]:not([data-visivel]) .gema {
+    filter: grayscale(1) brightness(0.42);
+    box-shadow: none !important;
+    transform: scale(0.92);
+  }
+  .anima [data-revelar="gemas"]:not([data-visivel]) .gema-texto {
+    opacity: 0.35;
+  }
+
+  /* Editor de anfitriões: os requisitos de envio se cumprem um a um */
+  [data-revelar="requisitos"] .requisito-selo {
+    transition:
+      opacity 400ms linear,
+      transform 700ms var(--ease-galeria);
+    transition-delay: calc(var(--i, 0) * 380ms + 300ms);
+  }
+  [data-revelar="requisitos"] .requisito-texto {
+    transition: opacity 500ms linear;
+    transition-delay: calc(var(--i, 0) * 380ms + 300ms);
+  }
+  .anima [data-revelar="requisitos"]:not([data-visivel]) .requisito-selo {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  .anima [data-revelar="requisitos"]:not([data-visivel]) .requisito-texto {
+    opacity: 0.4;
+  }
+
+  /* Fundos que acompanham a rolagem, onde o navegador suporta. Sem suporte, ficam parados */
+  @supports (animation-timeline: view()) {
+    .hero-fundo {
+      animation:
+        porta-assenta 2200ms var(--ease-galeria) both,
+        fundo-acompanha linear both;
+      animation-timeline: auto, view();
+      animation-range: normal, exit 0% exit 100%;
+    }
+    .chamado-fundo {
+      animation: escada-acompanha linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
