@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { SITE_URL, imagens, passosAnfitriao, perguntas, salaDemo } from "@/lib/conteudo";
-import { Botao, Rotulo, SeloAnfitriao, Titulo } from "@/components/ui/primitivos";
+import { Botao, DEGRADE_GRAVURA, Rotulo, SeloAnfitriao, Titulo } from "@/components/ui/primitivos";
 import { SalaCard } from "@/components/ui/sala-card";
 import { Logo } from "./topo";
 
@@ -32,7 +32,7 @@ export function SejaAnfitriao() {
         </div>
         <figure className="flex flex-col items-center gap-4">
           <SeloAnfitriao />
-          <SalaCard sala={salaDemo} tema="claro" className="min-h-[600px] w-full max-w-[384px]" />
+          <SalaCard sala={salaDemo} tema="claro" degrade={DEGRADE_GRAVURA} className="min-h-[600px] w-full max-w-[384px]" />
           <figcaption className="text-[13px] text-texto-3">Exemplo de Sala de anfitriã (perfil de demonstração)</figcaption>
         </figure>
       </div>
@@ -125,7 +125,7 @@ export function Chamado({
       <div className="flex flex-wrap justify-center gap-3.5">
         {acoes ?? (
           <>
-            <Botao href={`${SITE_URL}/criar-conta`}>Criar conta gratuita</Botao>
+            <Botao href={`${SITE_URL}/cadastro`}>Criar conta gratuita</Botao>
             <Botao href={`${SITE_URL}/entrar`} variante="vidro" seta={false}>Já tenho conta</Botao>
           </>
         )}

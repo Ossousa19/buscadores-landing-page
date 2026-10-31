@@ -4,6 +4,7 @@ import "@fontsource-variable/fraunces/full-italic.css";
 import "@fontsource-variable/source-serif-4/opsz.css";
 import "@fontsource-variable/source-serif-4/opsz-italic.css";
 import "@fontsource-variable/inter/index.css";
+import "@fontsource-variable/eb-garamond/wght-italic.css";
 import "./globals.css";
 import { Movimento, scriptAnima } from "@/components/ui/movimento";
 

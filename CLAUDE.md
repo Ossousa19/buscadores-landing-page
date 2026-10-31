@@ -6,14 +6,14 @@ O design vem da versão **"v3 Galeria"** no Figma `Sala_Dos_Buscadores` (página
 ## Stack
 - Next.js 15 (App Router) + React 19 + TypeScript 5 (não usar TypeScript 7: o Next 15 quebra com ele).
 - Tailwind CSS v4: tokens em `app/globals.css` (`@theme`). Não crie cores fora dos tokens.
-- Fontes locais via `@fontsource-variable`: Fraunces (títulos), Source Serif 4 (textos de leitura), Inter (interface).
+- Fontes locais via `@fontsource-variable`: Fraunces (títulos), Source Serif 4 (textos de leitura), Inter (interface). EB Garamond (`font-grego`) só para citações em grego clássico, que a Source Serif não cobre.
 - Comandos: `npm run dev`, `npm run build`, `npm run imagens` (baixa as imagens do site para `public/imagens`).
 
 ## Estrutura
 - `app/page.tsx` monta as seções na ordem: Hero → Curadoria (I) → Salas (II) → Comparar (III) → Trilhas (IV) → Leitura (V) → Conquistas (VI) → Seja anfitrião (VII) → FAQ (VIII) → Chamado → Rodapé.
 - `components/landing/*`: uma função por seção.
 - `components/ui/primitivos.tsx`: Botao (dourado, vidro, grafite, marfim), Rotulo (numeral romano + fio + texto), Titulo (duas linhas, a segunda em itálico), NivelChip, SeloAnfitriao, fundoGravura.
-- `components/ui/sala-card.tsx`: réplica do card de Sala da página /salas da plataforma. Mantenha igual ao site.
+- `components/ui/sala-card.tsx`: card de Sala baseado na página /salas da plataforma, sem o botão de favoritar (a landing é para visitante não logado).
 - `lib/conteudo.ts`: todo o conteúdo real (Salas, temas, trilha, conquistas, FAQ, caminhos de imagem).
 
 ## Identidade (não mudar sem o designer)

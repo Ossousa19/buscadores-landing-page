@@ -26,24 +26,61 @@ export const salas: Sala[] = [
   { slug: "urantia", numero: "VI", titulo: "O Livro de Urântia", descricao: "Revelação do séc. XX · Chicago, 1955", conteudos: 6, atualizada: "5 set 2026", nivel: "Iniciante", imagem: "/imagens/provisorias/urantia.jpg" },
 ];
 
-export const temas: { nome: string; total: number; slug: string; pergunta?: string }[] = [
-  { nome: "Morte", total: 4, slug: "morte", pergunta: "vida após a morte" },
-  { nome: "Alma", total: 4, slug: "alma" },
-  { nome: "Meditação", total: 1, slug: "meditacao" },
-  { nome: "Origem do universo", total: 5, slug: "origem-do-universo" },
-  { nome: "Conhecimento interior", total: 5, slug: "conhecimento-interior" },
-  { nome: "Formação da Bíblia", total: 1, slug: "formacao-da-biblia" },
-  { nome: "Monoteísmo", total: 1, slug: "monoteismo" },
-  { nome: "Origem do mal", total: 1, slug: "origem-do-mal" },
-  { nome: "Manuscritos antigos", total: 1, slug: "manuscritos-antigos" },
-  { nome: "Jesus", total: 2, slug: "jesus" },
+export const temas: { nome: string; slug: string; pergunta?: string }[] = [
+  { nome: "Morte", slug: "morte", pergunta: "vida após a morte" },
+  { nome: "Alma", slug: "alma" },
+  { nome: "Meditação", slug: "meditacao" },
+  { nome: "Origem do universo", slug: "origem-do-universo" },
+  { nome: "Conhecimento interior", slug: "conhecimento-interior" },
+  { nome: "Formação da Bíblia", slug: "formacao-da-biblia" },
+  { nome: "Monoteísmo", slug: "monoteismo" },
+  { nome: "Origem do mal", slug: "origem-do-mal" },
+  { nome: "Manuscritos antigos", slug: "manuscritos-antigos" },
+  { nome: "Jesus", slug: "jesus" },
 ];
 
-export const mesaDeComparacao = [
-  { sala: "Corpus Hermeticum", titulo: "Poimandres, §24–26: a subida pelas esferas", tipo: "Fonte primária · 6 min", imagem: "/imagens/provisorias/mesa-corpus-hermeticum.jpg" },
-  { sala: "Biblioteca de Nag Hammadi", titulo: "O Apócrifo de João e o mito de Sofia", tipo: "Artigo", imagem: "/imagens/provisorias/mesa-nag-hammadi.jpg" },
-  { sala: "O Livro de Urântia", titulo: "A vida continua: Urântia e espiritismo", tipo: "Artigo", imagem: "/imagens/provisorias/mesa-urantia.jpg" },
-];
+type ItemMesa = { sala: string; titulo: string; tipo: string; imagem: string; href?: string; acao?: string; posicaoImagem?: string };
+
+const corpus = { sala: "Corpus Hermeticum", imagem: "/imagens/provisorias/mesa-corpus-hermeticum.jpg" };
+const nagHammadi = { sala: "Biblioteca de Nag Hammadi", imagem: "/imagens/provisorias/mesa-nag-hammadi.jpg" };
+
+const subidaEsferas: ItemMesa = { ...corpus, titulo: "Poimandres, §24–26: a subida pelas esferas", tipo: "Fonte primária · 6 min" };
+const menteHermes: ItemMesa = { ...corpus, titulo: "Poimandres: a Mente que fala a Hermes", tipo: "Artigo · 11 min" };
+const tratadoXIII: ItemMesa = { ...corpus, titulo: "Tratado XIII: renascimento e silêncio", tipo: "Artigo · 16 min" };
+const apocrifoJoao: ItemMesa = { ...nagHammadi, titulo: "O Apócrifo de João e o mito de Sofia", tipo: "Artigo" };
+const evangelhoTome: ItemMesa = { ...nagHammadi, titulo: "O Evangelho de Tomé e os 114 ditos", tipo: "Artigo" };
+const vidaContinua: ItemMesa ={ sala: "O Livro de Urântia", titulo: "A vida continua: Urântia e espiritismo", tipo: "Artigo", imagem: "/imagens/provisorias/mesa-urantia.jpg" };
+const salaFePoder: ItemMesa = {
+  sala: "Fé e Poder",
+  titulo: "Bíblia Hebraica, cristianismo antigo e literatura judaica antiga",
+  tipo: "Sala · 3 conteúdos",
+  imagem: "/imagens/provisorias/fe-e-poder.jpg",
+  posicaoImagem: "top",
+  href: `${SITE_URL}/salas/fe-e-poder`,
+  acao: "Entrar",
+};
+
+// A ligação com os temas foi feita por assunto e precisa ser conferida com a plataforma. Confirmados no Figma:
+// os três cards de Morte e o Evangelho de Tomé em Conhecimento interior e Jesus. O número de cada chip é o tamanho da lista.
+export const mesaPorTema: Record<string, ItemMesa[]> = {
+  morte: [subidaEsferas, apocrifoJoao, vidaContinua],
+  alma: [tratadoXIII, apocrifoJoao, vidaContinua],
+  meditacao: [tratadoXIII],
+  "origem-do-universo": [menteHermes, apocrifoJoao],
+  "conhecimento-interior": [menteHermes, tratadoXIII, evangelhoTome],
+  "formacao-da-biblia": [salaFePoder],
+  monoteismo: [salaFePoder],
+  "origem-do-mal": [apocrifoJoao],
+  "manuscritos-antigos": [apocrifoJoao],
+  jesus: [evangelhoTome],
+};
+
+// Corpus Hermeticum I, 26. O grego foi transcrito sem consulta à edição usada na plataforma: a curadoria precisa conferir.
+export const trechoLeitura = {
+  original: "τοῦτό ἐστι τὸ ἀγαθὸν τέλος τοῖς γνῶσιν ἐσχηκόσι…",
+  traducao: "Este é o bom fim para os que alcançaram o conhecimento…",
+  fonte: "Corpus Hermeticum · Tratado I, 26 · Poimandres",
+};
 
 export const trilha = {
   sala: "Corpus Hermeticum",
@@ -80,7 +117,7 @@ export const imagens = {
   hero: "/imagens/hero/colunata.webp",
   claustro: "/imagens/provisorias/claustro.jpg",
   escada: "/imagens/anfitrioes/escada.webp",
-  anfitria: "/imagens/provisorias/anfitria.jpg",
+  anfitria: "/imagens/anfitrioes/claustro.webp",
 };
 
 /* ---------- Anfitriões ---------- */
@@ -112,8 +149,6 @@ export const imagensAnfitrioes = {
   arco: "/imagens/anfitrioes/arco-do-ceu.webp",
   avatar: "/imagens/anfitrioes/avatar.webp",
 };
-
-export const salaHelena: Sala = { ...salaDemo, imagem: "/imagens/anfitrioes/claustro.webp" };
 
 export const motivosAnfitriao = [
   { n: "I", t: "A sua leitura, com o seu nome", d: "Cada artigo traz a sua assinatura e o selo de anfitrião. O leitor sabe que é a leitura de um anfitrião." },

@@ -1,4 +1,4 @@
-import { CANDIDATURA_URL, CURADORIA_EMAIL, alcanceSala, artigosHelena, etapasAnfitriao, imagensAnfitrioes, motivosAnfitriao, politicaEditorial, salaHelena } from "@/lib/conteudo";
+import { CANDIDATURA_URL, CURADORIA_EMAIL, alcanceSala, artigosHelena, etapasAnfitriao, imagensAnfitrioes, motivosAnfitriao, politicaEditorial, salaDemo } from "@/lib/conteudo";
 import { Botao, DEGRADE_GRAVURA, Rotulo, SeloAnfitriao, Seta, Titulo, cx } from "@/components/ui/primitivos";
 import { SalaCard } from "@/components/ui/sala-card";
 import { EditorDemo } from "./editor-demo";
@@ -33,12 +33,9 @@ export function HeroAnfitrioes() {
           backgroundPosition: "center",
         }}
       />
-      <Cabecalho itens={links} inicio="/" selo="Anfitriões" cta={{ href: CANDIDATURA_URL, label: "Candidatar-me" }} />
+      <Cabecalho itens={links} inicio="/" cta={{ href: CANDIDATURA_URL, label: "Candidatar-me" }} />
 
       <div className="flex flex-1 flex-col items-center justify-center gap-7 px-5 py-14 text-center sm:px-10">
-        <div className="hero-surge" style={{ ["--d" as string]: "60ms" }}>
-          <SeloAnfitriao tom="escuro" />
-        </div>
         <p className="hero-surge text-[13px] font-semibold tracking-[0.14em] text-ouro-claro/95 uppercase" style={{ ["--d" as string]: "120ms" }}>
           Para pesquisadores, professores e estudiosos de uma tradição
         </p>
@@ -123,7 +120,7 @@ export function ComoFicaSala() {
         </div>
 
         <div className="grid items-start gap-6 lg:grid-cols-[384px_1fr]">
-          <SalaCard sala={salaHelena} degrade={DEGRADE_GRAVURA} className="mx-auto min-h-[600px] w-full max-w-[384px]" />
+          <SalaCard sala={salaDemo} degrade={DEGRADE_GRAVURA} className="mx-auto min-h-[600px] w-full max-w-[384px]" />
           <div className="flex min-w-0 flex-col gap-6">
             <div data-revelar="subir" style={{ ...painel, ["--i" as string]: 1 }} className="flex flex-wrap items-center gap-x-5 gap-y-4 rounded-3xl p-6 ring-1 ring-inset ring-white/10">
               {/* eslint-disable-next-line @next/next/no-img-element */}

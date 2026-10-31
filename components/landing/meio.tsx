@@ -1,5 +1,6 @@
 import { SITE_URL, conquistas, trilha } from "@/lib/conteudo";
 import { Botao, Rotulo, Titulo, cx } from "@/components/ui/primitivos";
+import { LeituraTrecho } from "./leitura-trecho";
 
 export function Trilhas() {
   return (
@@ -58,17 +59,7 @@ export function Leitura() {
     <section aria-labelledby="leitura-titulo" className="bg-damasco px-5 py-24 shadow-[0_-1px_0_var(--color-damasco)] sm:px-10 lg:px-[120px] lg:py-[150px]">
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-10 text-center">
         <Rotulo numero="V">Leitura na fonte</Rotulo>
-        <figure className="flex flex-col items-center gap-10">
-          <blockquote id="leitura-titulo" data-revelar="subir" className="max-w-[1040px] font-serif text-[40px] leading-[1.18] italic tracking-[-0.02em] text-grafite sm:text-[52px] lg:text-[60px]">
-            “Este é o bom fim para os que alcançaram o conhecimento…”
-          </blockquote>
-          <figcaption className="text-xs font-semibold tracking-[0.14em] text-marca uppercase">Corpus Hermeticum · Tratado I, 26 · Poimandres</figcaption>
-        </figure>
-        <p className="inline-flex gap-0.5 rounded-full bg-marfim p-1 text-sm shadow-[0_2px_4px_rgb(0_0_0/0.06),0_24px_40px_-14px_rgb(57_0_7/0.32)]">
-          <span className="rounded-full px-5 py-2 font-medium text-texto-2">Original</span>
-          <span className="rounded-full px-5 py-2 font-medium text-texto-2">Tradução</span>
-          <span className="rounded-full bg-grafite px-5 py-2 font-semibold text-white">Lado a lado</span>
-        </p>
+        <LeituraTrecho />
         <ul className="mt-[34px] grid w-full gap-8 text-left md:grid-cols-[378fr_411fr_411fr] md:gap-0">
           {recursos.map((r, i) => (
             <li key={r.t} className={cx("flex flex-col gap-2 border-t border-bordo/14 pt-6 md:pr-8", i > 0 && "md:border-l md:pl-8")}>

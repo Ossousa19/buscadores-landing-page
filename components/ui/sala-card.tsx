@@ -1,11 +1,11 @@
 import type { Sala } from "@/lib/conteudo";
 import { SITE_URL } from "@/lib/conteudo";
-import { Marcador, NivelChip, Seta, cx, fundoGravura } from "./primitivos";
+import { NivelChip, Seta, cx, fundoGravura } from "./primitivos";
 
 /**
- * Card de Sala — réplica do card da página /salas da plataforma.
- * Moldura de 8px (escura ou marfim), gravura cobrindo tudo, chip de conteúdos,
- * botão salvar e painel de vidro com título, descrição, nível, data e "Entrar na Sala".
+ * Card de Sala — baseado no card da página /salas da plataforma, sem o botão de salvar.
+ * Moldura de 8px (escura ou marfim), gravura cobrindo tudo, chip de conteúdos
+ * e painel de vidro com título, descrição, nível, data e "Entrar na Sala".
  */
 export function SalaCard({ sala, tema = "escuro", className, ordem = 0, degrade }: { sala: Sala; tema?: "escuro" | "claro"; className?: string; ordem?: number; degrade?: string }) {
   const escuro = tema === "escuro";
@@ -27,13 +27,6 @@ export function SalaCard({ sala, tema = "escuro", className, ordem = 0, degrade 
           <span className="rounded-xl bg-grafite/82 px-3 py-1.5 text-xs font-medium tracking-[-0.006em] text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/0.18)] backdrop-blur-md">
             {sala.conteudos} conteúdos
           </span>
-          <button
-            type="button"
-            aria-label={`Salvar ${sala.titulo} para depois`}
-            className="grid size-12 place-items-center rounded-xl bg-grafite/82 text-white shadow-[inset_0_0_0_1px_rgb(246_231_206/0.16),inset_0_1px_0_rgb(246_231_206/0.18)] transition-colors hover:bg-grafite"
-          >
-            <Marcador />
-          </button>
         </div>
 
         <div className="vidro-escuro relative flex flex-col gap-4 rounded-2xl p-6">

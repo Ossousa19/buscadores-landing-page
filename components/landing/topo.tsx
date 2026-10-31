@@ -15,16 +15,13 @@ const links = [
   { href: "#anfitriao", label: "Seja anfitrião" },
 ];
 
-export function Cabecalho({ itens = links, inicio = "#", cta, selo }: { itens?: { href: string; label: string }[]; inicio?: string; cta?: { href: string; label: string }; selo?: string }) {
-  const acao = cta ?? { href: `${SITE_URL}/criar-conta`, label: "Criar conta" };
+export function Cabecalho({ itens = links, inicio = "#", cta }: { itens?: { href: string; label: string }[]; inicio?: string; cta?: { href: string; label: string } }) {
+  const acao = cta ?? { href: `${SITE_URL}/cadastro`, label: "Criar conta" };
   return (
     <header className="hero-surge flex items-center justify-between gap-6 px-5 py-6 sm:px-10 lg:px-16 lg:py-7">
-      <div className="flex items-center gap-4">
-        <a href={inicio} aria-label="A Sala dos Buscadores, início">
-          <Logo />
-        </a>
-        {selo && <span className="hidden rounded-full px-2.5 py-1 text-[10.5px] font-semibold tracking-[0.14em] text-ouro-claro uppercase ring-1 ring-inset ring-ouro/60 sm:inline">{selo}</span>}
-      </div>
+      <a href={inicio} aria-label="A Sala dos Buscadores, início">
+        <Logo />
+      </a>
       <nav aria-label="Principal" className={cta ? "hidden xl:block" : "hidden lg:block"}>
         <ul className="flex items-center gap-6 whitespace-nowrap xl:gap-10">
           {itens.map((l) => (
@@ -74,7 +71,7 @@ export function Hero() {
           Um acervo curado para compreender textos, ideias e cosmologias em seus próprios contextos, sem hierarquias, sem respostas prontas.
         </p>
         <div className="hero-surge flex flex-wrap items-center justify-center gap-3.5 pt-1.5" style={{ ["--d" as string]: "900ms" }}>
-          <Botao href={`${SITE_URL}/criar-conta`}>Criar conta gratuita</Botao>
+          <Botao href={`${SITE_URL}/cadastro`}>Criar conta gratuita</Botao>
           <Botao href="#salas" variante="vidro" seta={false}>
             Visitar as Salas
           </Botao>

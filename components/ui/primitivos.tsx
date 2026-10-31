@@ -18,13 +18,6 @@ export function Visto({ className = "size-4" }: { className?: string }) {
     </svg>
   );
 }
-export function Marcador({ className = "size-5" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden className={className}>
-      <path d="M5.5 3.25h9a.75.75 0 0 1 .75.75v12.6l-5.25-3.35-5.25 3.35V4a.75.75 0 0 1 .75-.75z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  );
-}
 export function Selo({ className = "size-4" }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden className={className}>
