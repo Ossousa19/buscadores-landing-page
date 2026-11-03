@@ -120,7 +120,7 @@ export function ComoFicaSala() {
         </div>
 
         <div className="grid items-start gap-6 lg:grid-cols-[384px_1fr]">
-          <SalaCard sala={salaDemo} degrade={DEGRADE_GRAVURA} className="mx-auto min-h-[600px] w-full max-w-[384px]" />
+          <SalaCard exemplo sala={salaDemo} degrade={DEGRADE_GRAVURA} className="mx-auto min-h-[600px] w-full max-w-[384px]" />
           <div className="flex min-w-0 flex-col gap-6">
             <div data-revelar="subir" style={{ ...painel, ["--i" as string]: 1 }} className="flex flex-wrap items-center gap-x-5 gap-y-4 rounded-3xl p-6 ring-1 ring-inset ring-white/10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -128,7 +128,7 @@ export function ComoFicaSala() {
               <div className="min-w-0 flex-1 basis-[240px]">
                 <p className="text-[11px] font-semibold tracking-[0.14em] text-ouro uppercase">Página pública do anfitrião</p>
                 <p className="mt-1 font-display text-[26px] leading-tight text-marfim">Helena Varga (demonstração)</p>
-                <p className="mt-1 text-sm break-words text-marfim/55">saladosbuscadores.org/anfitrioes/helena-varga</p>
+                <p className="mt-1 text-sm break-words text-marfim/55">Exemplo ilustrativo, sem página publicada</p>
               </div>
               <SeloAnfitriao tom="escuro" />
             </div>

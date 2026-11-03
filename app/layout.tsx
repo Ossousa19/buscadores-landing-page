@@ -11,7 +11,7 @@ import { Movimento, scriptAnima } from "@/components/ui/movimento";
 export const metadata: Metadata = {
   title: "A Sala dos Buscadores · Biblioteca digital de estudos comparados",
   description:
-    "Um acervo curado para compreender textos, ideias e cosmologias em seus próprios contextos, sem hierarquias, sem respostas prontas.",
+    "Explore textos, ideias e cosmologias em seus contextos. Conheça as Salas, leia os artigos e acompanhe as fontes no seu próprio ritmo.",
 };
 
 export const viewport: Viewport = { themeColor: "#0b0c0c" };

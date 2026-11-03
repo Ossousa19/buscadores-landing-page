@@ -1,13 +1,13 @@
 import type { Sala } from "@/lib/conteudo";
 import { SITE_URL } from "@/lib/conteudo";
-import { NivelChip, Seta, cx, fundoGravura } from "./primitivos";
+import { Gravura, NivelChip, Seta, cx } from "./primitivos";
 
 /**
  * Card de Sala — baseado no card da página /salas da plataforma, sem o botão de salvar.
  * Moldura de 8px (escura ou marfim), gravura cobrindo tudo, chip de conteúdos
- * e painel de vidro com título, descrição, nível, data e "Entrar na Sala".
+ * e painel de vidro com título, descrição, nível, data e "Explorar a Sala".
  */
-export function SalaCard({ sala, tema = "escuro", className, ordem = 0, degrade }: { sala: Sala; tema?: "escuro" | "claro"; className?: string; ordem?: number; degrade?: string }) {
+export function SalaCard({ sala, tema = "escuro", className, ordem = 0, degrade, exemplo }: { sala: Sala; tema?: "escuro" | "claro"; className?: string; ordem?: number; degrade?: string; exemplo?: boolean }) {
   const escuro = tema === "escuro";
   return (
     <article
@@ -22,7 +22,9 @@ export function SalaCard({ sala, tema = "escuro", className, ordem = 0, degrade 
       )}
     >
       <div className="relative flex flex-1 flex-col justify-between gap-6 overflow-hidden rounded-2xl p-4">
-        <div aria-hidden className="absolute inset-0 transition-[scale] duration-[1400ms] ease-galeria group-hover/sala:scale-[1.04]" style={fundoGravura(sala.imagem, degrade)} />
+        <div aria-hidden className="absolute inset-0 transition-[scale] duration-[1400ms] ease-galeria group-hover/sala:scale-[1.04]">
+          <Gravura src={sala.imagem} sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 100vw" degrade={degrade} posicao={sala.enquadramento?.posicao} altura={sala.enquadramento?.tamanho} />
+        </div>
         <div className="relative flex items-start justify-between">
           <span className="rounded-xl bg-grafite/82 px-3 py-1.5 text-xs font-medium tracking-[-0.006em] text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/0.18)] backdrop-blur-md">
             {sala.conteudos} conteúdos
@@ -40,14 +42,19 @@ export function SalaCard({ sala, tema = "escuro", className, ordem = 0, degrade 
               Atualizada em <time>{sala.atualizada}</time>
             </span>
           </div>
+          {exemplo ? (
+            // Sala demonstrativa: sem link, para não fingir conteúdo publicado
+            <p className="w-fit rounded-xl bg-white/10 px-4 py-2 text-[13.5px] font-medium text-white/90 ring-1 ring-inset ring-white/20">Exemplo de demonstração</p>
+          ) : (
           <a
             href={`${SITE_URL}/salas/${sala.slug}`}
             className="group/entrar inline-flex w-fit items-center gap-2 rounded-xl bg-cinza-botao px-6 py-3 text-[15px] font-semibold tracking-[-0.01em] text-grafite shadow-[inset_0_1px_0_rgb(255_255_255/0.2),0_1px_2px_rgb(17_19_19/0.16)] transition-[background-color,scale] duration-200 hover:bg-white active:scale-[0.98]"
           >
-            Entrar na Sala
+            Explorar a Sala
             <span className="sr-only">{sala.titulo}</span>
             <Seta className="size-5 transition-transform duration-300 ease-galeria group-hover/entrar:translate-x-1" />
           </a>
+          )}
         </div>
       </div>
     </article>

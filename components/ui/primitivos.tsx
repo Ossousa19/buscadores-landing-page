@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import type { Nivel } from "@/lib/conteudo";
 
@@ -96,13 +97,17 @@ export function NivelChip({ nivel }: { nivel: Nivel }) {
 /* ---------- Fundo de gravura em camadas (cor > brilho > imagem > degradê) ---------- */
 // As imagens em /imagens/provisorias já trazem o degradê; as exportações reais usam DEGRADE_GRAVURA.
 export const DEGRADE_GRAVURA = "linear-gradient(180deg, rgb(17 19 19/.2) 0%, rgb(17 19 19/0) 40%, rgb(17 19 19/.55) 100%)";
-export function fundoGravura(imagem: string, degrade = "none") {
-  return {
-    backgroundColor: "var(--color-bordo)",
-    backgroundImage: `${degrade}, url("${imagem}"), radial-gradient(90% 75% at 88% 0%, rgb(211 199 89/.32), rgb(211 199 89/0) 62%)`,
-    backgroundSize: "cover, cover, cover",
-    backgroundPosition: "center, center, center",
-  } as const;
+/* Imagem de fundo em tamanho responsivo: só a da primeira dobra carrega com prioridade, as outras sob demanda.
+   Decorativa, por isso alt vazio. */
+export function Gravura({ src, sizes, degrade, posicao = "center", altura, prioridade }: { src: string; sizes: string; degrade?: string; posicao?: string; altura?: string; prioridade?: boolean }) {
+  return (
+    <>
+      <span className="absolute inset-x-0 bottom-0 block overflow-hidden bg-bordo" style={{ height: altura ?? "100%" }}>
+        <Image src={src} alt="" fill sizes={sizes} priority={prioridade} className="object-cover" style={{ objectPosition: posicao }} />
+      </span>
+      {degrade && <span aria-hidden className="absolute inset-0 block" style={{ backgroundImage: degrade }} />}
+    </>
+  );
 }
 
 /* ---------- Selo de proveniência ---------- */

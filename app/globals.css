@@ -100,6 +100,11 @@
    Estados ocultos só existem com .anima (JS ativo, ver components/ui/movimento.tsx) e sem
    prefers-reduced-motion, então o conteúdo nunca depende da animação para aparecer. */
 
+/* O céu do túnel de Salas só existe com as cenas ativas */
+.tunel-fundo {
+  display: none;
+}
+
 /* Máscara das linhas de título: folga para ascendentes e descendentes da Fraunces */
 .linha {
   display: block;
@@ -267,6 +272,148 @@
     .anima [data-revelar="escada"]:not([data-visivel]) .degrau {
       opacity: 1;
       transform: translateY(100%);
+    }
+  }
+
+  /* Escada no celular: um fio desce pela lista e cada degrau acende quando ele chega.
+     --q vem de components/ui/movimento.tsx */
+  @media (max-width: 39.99rem) and (min-height: 560px) {
+    .anima .escada ol {
+      padding-left: 20px;
+    }
+    .anima .escada ol::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 1px;
+      background: var(--color-ouro);
+      transform-origin: top;
+      transform: scaleY(var(--q, 0));
+    }
+    .anima .escada [data-revelar="escada"]:not([data-visivel]) .degrau,
+    .anima .escada [data-revelar="escada"] .degrau {
+      --t: clamp(0, calc((var(--q, 0) - var(--i) * 0.19) / 0.17), 1);
+      transition: none;
+      opacity: calc(0.2 + var(--t) * 0.8);
+      transform: translateY(calc((1 - var(--t)) * 24px));
+    }
+  }
+
+  /* Escada presa à rolagem: os degraus sobem um a um até formar o desenho final,
+     com o fio do degrau subindo junto e o numeral surgindo na chegada.
+     --p vem de components/ui/movimento.tsx */
+  @media (min-width: 64rem) and (min-height: 640px) {
+    .anima .escada {
+      height: 260svh;
+      padding-top: 0;
+    }
+    .anima .escada-palco {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      gap: clamp(20px, 4svh, 48px);
+      padding-top: clamp(56px, 10svh, 104px);
+    }
+    .anima .escada-palco ol {
+      flex: 1;
+      min-height: 0;
+    }
+    .anima .escada-titulo {
+      transform-origin: left bottom;
+      opacity: calc(0.45 + clamp(0, var(--p, 0) / 0.12, 1) * 0.55);
+      scale: calc(1 - clamp(0, var(--p, 0) / 0.6, 1) * 0.14);
+    }
+    .anima .escada [data-revelar="escada"]:not([data-visivel]) .degrau,
+    .anima .escada [data-revelar="escada"] .degrau {
+      --t: clamp(0, calc((var(--p, 0) - 0.02 - var(--i) * 0.1) / 0.4), 1);
+      --chegada: clamp(0, calc((var(--t) - 0.7) / 0.3), 1);
+      height: calc((42 + var(--i) * 14.5) * 1%);
+      transition: none;
+      opacity: 1;
+      transform: translateY(calc((1 - var(--t)) * 101%));
+    }
+    .anima .escada .degrau::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 -1px;
+      width: 1px;
+      background: var(--color-marca);
+      opacity: 0.55;
+      transform-origin: bottom;
+      transform: scaleY(var(--t));
+    }
+    .anima .escada .degrau-n {
+      opacity: var(--chegada);
+      scale: calc(0.6 + var(--chegada) * 0.4);
+    }
+  }
+
+  /* Túnel de Salas: céu fixo e as Salas vindo em direção a quem rola.
+     Posição de cada Sala em components/ui/movimento.tsx. Sem estas regras vale a grade comum */
+  @media (min-height: 560px) {
+    .anima .tunel {
+      height: 480svh;
+      padding: 0;
+    }
+    .anima .tunel-palco {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: clip;
+    }
+    .anima .tunel-fundo {
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+    .anima .tunel-conteudo {
+      position: absolute;
+      inset: 0;
+      max-width: none;
+    }
+    .anima .tunel-abertura {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding-inline: 20px;
+      text-align: center;
+    }
+    .anima .tunel-abertura > div {
+      align-items: center;
+    }
+    .anima .tunel-lista {
+      position: absolute;
+      inset: 0;
+      display: block;
+      perspective: 1200px;
+    }
+    .anima .tunel-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(384px, 84vw);
+      height: min(600px, 78svh);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    .anima .tunel-item article {
+      min-height: 0;
+    }
+    .anima .tunel-item[data-longe] * {
+      backdrop-filter: none;
+    }
+    .anima .tunel-lista [data-revelar="subir"]:not([data-visivel]) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (max-width: 47.99rem) and (min-height: 560px) {
+    .anima .tunel {
+      height: 400svh;
     }
   }
 

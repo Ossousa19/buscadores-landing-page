@@ -12,19 +12,23 @@ export type Sala = {
   atualizada: string;
   nivel: Nivel;
   imagem: string;
+  enquadramento?: { tamanho: string; posicao: string }; // altura e ponto focal, quando o painel de vidro cobriria o assunto da imagem
 };
 
 export const SITE_URL = "https://sala-dos-buscadores.vercel.app";
 
 // Em ordem alfabética: a ordem não indica importância.
 export const salas: Sala[] = [
-  { slug: "apocrifos-cristianismo-primitivo", numero: "I", titulo: "Apócrifos do Cristianismo Primitivo", descricao: "Cristianismo dos séc. I–IV · textos fora do cânone", conteudos: 5, atualizada: "10 set 2026", nivel: "Intermediário", imagem: "/imagens/provisorias/apocrifos.jpg" },
-  { slug: "nag-hammadi", numero: "II", titulo: "Biblioteca de Nag Hammadi", descricao: "Gnosticismo cristão · 13 códices coptas", conteudos: 8, atualizada: "12 set 2026", nivel: "Iniciante", imagem: "/imagens/provisorias/mesa-nag-hammadi.jpg" },
-  { slug: "corpus-hermeticum", numero: "III", titulo: "Corpus Hermeticum", descricao: "Hermetismo greco-egípcio · séc. I–III", conteudos: 3, atualizada: "3 set 2026", nivel: "Intermediário", imagem: "/imagens/provisorias/corpus-hermeticum.jpg" },
-  { slug: "fe-e-poder", numero: "IV", titulo: "Fé e Poder", descricao: "Bíblia Hebraica, cristianismo antigo e literatura judaica antiga", conteudos: 3, atualizada: "29 out 2026", nivel: "Iniciante", imagem: "/imagens/provisorias/fe-e-poder.jpg" },
-  { slug: "caibalion", numero: "V", titulo: "O Caibalion", descricao: "Hermetismo moderno · Chicago, 1908", conteudos: 3, atualizada: "28 ago 2026", nivel: "Iniciante", imagem: "/imagens/provisorias/caibalion.jpg" },
-  { slug: "urantia", numero: "VI", titulo: "O Livro de Urântia", descricao: "Revelação do séc. XX · Chicago, 1955", conteudos: 6, atualizada: "5 set 2026", nivel: "Iniciante", imagem: "/imagens/provisorias/urantia.jpg" },
+  { slug: "apocrifos-cristianismo-primitivo", numero: "I", titulo: "Apócrifos do Cristianismo Primitivo", descricao: "Textos e perspectivas do cristianismo antigo para além do cânone.", conteudos: 5, atualizada: "10 set 2026", nivel: "Intermediário", imagem: "/imagens/portal/cristianismo-primitivo.webp" },
+  { slug: "nag-hammadi", numero: "II", titulo: "Biblioteca de Nag Hammadi", descricao: "Manuscritos, mitos e caminhos de conhecimento em uma biblioteca da Antiguidade.", conteudos: 8, atualizada: "12 set 2026", nivel: "Iniciante", imagem: "/imagens/portal/nag-hammadi.webp" },
+  { slug: "corpus-hermeticum", numero: "III", titulo: "Corpus Hermeticum", descricao: "Diálogos sobre mente, cosmos e conhecimento no hermetismo antigo.", conteudos: 3, atualizada: "3 set 2026", nivel: "Intermediário", imagem: "/imagens/portal/hermetismo.webp" },
+  { slug: "fe-e-poder", numero: "IV", titulo: "Fé e Poder", descricao: "Relações entre textos, tradições religiosas e formas de autoridade.", conteudos: 3, atualizada: "29 out 2026", nivel: "Iniciante", imagem: "/imagens/provisorias/fe-e-poder.jpg" },
+  { slug: "caibalion", numero: "V", titulo: "O Caibalion", descricao: "Os sete princípios em seu contexto de hermetismo moderno.", conteudos: 3, atualizada: "28 ago 2026", nivel: "Iniciante", imagem: "/imagens/portal/caibalion.webp" },
+  { slug: "urantia", numero: "VI", titulo: "O Livro de Urântia", descricao: "Cosmologia, espiritualidade e narrativas de uma obra do século XX.", conteudos: 6, atualizada: "5 set 2026", nivel: "Iniciante", imagem: "/imagens/portal/urantia.webp", enquadramento: { tamanho: "135%", posicao: "38% 100%" } },
 ];
+
+const EXTENSO = ["zero", "uma", "duas", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez"];
+export const numeroPorExtenso = (n: number) => EXTENSO[n] ?? String(n);
 
 export const temas: { nome: string; slug: string; pergunta?: string }[] = [
   { nome: "Morte", slug: "morte", pergunta: "vida após a morte" },
@@ -39,39 +43,18 @@ export const temas: { nome: string; slug: string; pergunta?: string }[] = [
   { nome: "Jesus", slug: "jesus" },
 ];
 
-type ItemMesa = { sala: string; titulo: string; tipo: string; imagem: string; href?: string; acao?: string; posicaoImagem?: string };
+type ItemMesa = { sala: string; salaSlug: string; titulo: string; tipo: string; imagem: string; posicaoImagem: string };
 
-const corpus = { sala: "Corpus Hermeticum", imagem: "/imagens/provisorias/mesa-corpus-hermeticum.jpg" };
-const nagHammadi = { sala: "Biblioteca de Nag Hammadi", imagem: "/imagens/provisorias/mesa-nag-hammadi.jpg" };
+const subidaEsferas: ItemMesa = { sala: "Corpus Hermeticum", salaSlug: "corpus-hermeticum", titulo: "Poimandres, §24–26: a subida pelas esferas", tipo: "Fonte primária · 6 min", imagem: "/imagens/portal/hermetismo.webp", posicaoImagem: "50% 30%" };
+const apocrifoJoao: ItemMesa = { sala: "Biblioteca de Nag Hammadi", salaSlug: "nag-hammadi", titulo: "O Apócrifo de João e o mito de Sofia", tipo: "Artigo", imagem: "/imagens/portal/nag-hammadi.webp", posicaoImagem: "55% 46%" };
+const vidaContinua: ItemMesa = { sala: "O Livro de Urântia", salaSlug: "urantia", titulo: "A vida continua: Urântia e espiritismo", tipo: "Artigo", imagem: "/imagens/portal/urantia.webp", posicaoImagem: "40% 56%" };
+const evangelhoTome: ItemMesa = { sala: "Biblioteca de Nag Hammadi", salaSlug: "nag-hammadi", titulo: "O Evangelho de Tomé e os 114 ditos", tipo: "Artigo", imagem: "/imagens/portal/nag-hammadi.webp", posicaoImagem: "55% 46%" };
 
-const subidaEsferas: ItemMesa = { ...corpus, titulo: "Poimandres, §24–26: a subida pelas esferas", tipo: "Fonte primária · 6 min" };
-const menteHermes: ItemMesa = { ...corpus, titulo: "Poimandres: a Mente que fala a Hermes", tipo: "Artigo · 11 min" };
-const tratadoXIII: ItemMesa = { ...corpus, titulo: "Tratado XIII: renascimento e silêncio", tipo: "Artigo · 16 min" };
-const apocrifoJoao: ItemMesa = { ...nagHammadi, titulo: "O Apócrifo de João e o mito de Sofia", tipo: "Artigo" };
-const evangelhoTome: ItemMesa = { ...nagHammadi, titulo: "O Evangelho de Tomé e os 114 ditos", tipo: "Artigo" };
-const vidaContinua: ItemMesa ={ sala: "O Livro de Urântia", titulo: "A vida continua: Urântia e espiritismo", tipo: "Artigo", imagem: "/imagens/provisorias/mesa-urantia.jpg" };
-const salaFePoder: ItemMesa = {
-  sala: "Fé e Poder",
-  titulo: "Bíblia Hebraica, cristianismo antigo e literatura judaica antiga",
-  tipo: "Sala · 3 conteúdos",
-  imagem: "/imagens/provisorias/fe-e-poder.jpg",
-  posicaoImagem: "top",
-  href: `${SITE_URL}/salas/fe-e-poder`,
-  acao: "Entrar",
-};
-
-// A ligação com os temas foi feita por assunto e precisa ser conferida com a plataforma. Confirmados no Figma:
-// os três cards de Morte e o Evangelho de Tomé em Conhecimento interior e Jesus. O número de cada chip é o tamanho da lista.
+// Só as ligações que aparecem no Figma. Tema sem lista mostra "Ainda não há leituras selecionadas":
+// a ausência aqui não significa ausência do tema na tradição.
 export const mesaPorTema: Record<string, ItemMesa[]> = {
   morte: [subidaEsferas, apocrifoJoao, vidaContinua],
-  alma: [tratadoXIII, apocrifoJoao, vidaContinua],
-  meditacao: [tratadoXIII],
-  "origem-do-universo": [menteHermes, apocrifoJoao],
-  "conhecimento-interior": [menteHermes, tratadoXIII, evangelhoTome],
-  "formacao-da-biblia": [salaFePoder],
-  monoteismo: [salaFePoder],
-  "origem-do-mal": [apocrifoJoao],
-  "manuscritos-antigos": [apocrifoJoao],
+  "conhecimento-interior": [evangelhoTome],
   jesus: [evangelhoTome],
 };
 
@@ -84,13 +67,13 @@ export const trechoLeitura = {
 
 export const trilha = {
   sala: "Corpus Hermeticum",
-  nome: "Hermetismo em cinco degraus",
+  nome: "Sequência sugerida de leituras",
   degraus: [
-    { n: "I", titulo: "O que é o hermetismo", tipo: "Artigo · 12 min", estado: "lido" },
-    { n: "II", titulo: "Poimandres: a Mente que fala a Hermes", tipo: "Artigo · 11 min", estado: "andamento" },
-    { n: "III", titulo: "Poimandres, §24–26: a subida pelas esferas", tipo: "Fonte primária · 6 min", estado: "" },
-    { n: "IV", titulo: "Tratado XIII: renascimento e silêncio", tipo: "Artigo · 16 min", estado: "" },
-    { n: "V", titulo: "Fontes usadas nesta Sala", tipo: "Leitura guiada", estado: "" },
+    { n: "I", titulo: "O que é o hermetismo", tipo: "Artigo · 12 min", },
+    { n: "II", titulo: "Poimandres: a Mente que fala a Hermes", tipo: "Artigo · 11 min", },
+    { n: "III", titulo: "Poimandres, §24–26: a subida pelas esferas", tipo: "Fonte primária · 6 min" },
+    { n: "IV", titulo: "Tratado XIII: renascimento e silêncio", tipo: "Artigo · 16 min" },
+    { n: "V", titulo: "Fontes usadas nesta Sala", tipo: "Leitura guiada" },
   ] as const,
 };
 
@@ -107,15 +90,15 @@ export const conquistas = [
 
 export const perguntas = [
   { p: "A Sala dos Buscadores defende alguma religião?", r: "Não. O acervo organiza tradições religiosas, espirituais e filosóficas com neutralidade doutrinária. As Salas aparecem em ordem alfabética, e a ordem não indica importância." },
-  { p: "A conta é paga?", r: "Não. A conta é gratuita, dá acesso a todo o acervo e guarda seu progresso só para você." },
+  { p: "A conta é paga?", r: "Não. A conta é gratuita." },
   { p: "Quem escreve os conteúdos?", r: "As equipes editoriais de cada Sala e anfitriões convidados. Nada vai ao ar sem a revisão da curadoria." },
-  { p: "Como funciona o assistente?", r: "A IA organiza o que o acervo diz; não determina qual crença é verdadeira. Toda resposta aponta suas fontes." },
+  { p: "Os conteúdos indicam as fontes?", r: "Os textos trazem referências identificadas. Original e tradução aparecem lado a lado quando disponíveis." },
   { p: "Preciso informar minha religião?", r: "Não. Se quiser, você pode informar religião ou convicção no cadastro; só é salva com seu consentimento, e dá para mudar ou apagar em Ajustes." },
 ];
 
 export const imagens = {
-  hero: "/imagens/hero/colunata.webp",
-  claustro: "/imagens/provisorias/claustro.jpg",
+  hero: "/imagens/portal/boas-vindas.webp",
+  curadoria: "/imagens/portal/contemplacao.webp",
   escada: "/imagens/anfitrioes/escada.webp",
   anfitria: "/imagens/anfitrioes/claustro.webp",
 };
@@ -123,7 +106,7 @@ export const imagens = {
 /* ---------- Anfitriões ---------- */
 
 // Enquanto não houver formulário próprio, a candidatura começa por e-mail.
-export const CURADORIA_EMAIL = "curadoria@saladosbuscadores.org";
+export const CURADORIA_EMAIL = "contato@asaladosbuscadores.com.br";
 export const CANDIDATURA_URL = `mailto:${CURADORIA_EMAIL}?subject=Candidatura%20para%20anfitri%C3%A3o`;
 
 export const passosAnfitriao = [

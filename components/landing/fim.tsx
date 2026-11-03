@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { SITE_URL, imagens, passosAnfitriao, perguntas, salaDemo } from "@/lib/conteudo";
-import { Botao, DEGRADE_GRAVURA, Rotulo, SeloAnfitriao, Titulo } from "@/components/ui/primitivos";
+import { CURADORIA_EMAIL, SITE_URL, imagens, passosAnfitriao, perguntas, salaDemo } from "@/lib/conteudo";
+import { Botao, DEGRADE_GRAVURA, Gravura, Rotulo, SeloAnfitriao, Titulo } from "@/components/ui/primitivos";
 import { SalaCard } from "@/components/ui/sala-card";
 import { Logo } from "./topo";
 
@@ -11,10 +11,10 @@ export function SejaAnfitriao() {
         <div className="flex flex-col gap-7.5">
           <Rotulo numero="VII">Para anfitriões</Rotulo>
           <div id="anfitriao-titulo">
-            <Titulo linha1="Tem uma pesquisa?" linha2="Abra a sua Sala." className="tracking-[-0.03em]" />
+            <Titulo linha1="Compartilhe sua pesquisa" linha2="com a curadoria." tamanho="md" className="tracking-[-0.03em]" />
           </div>
           <p className="max-w-[580px] font-serif text-[19px] leading-[1.6] text-texto-2">
-            Pesquisadores, professores e estudiosos de uma tradição podem manter uma Sala própria no acervo, com os seus artigos e as suas fontes, ao lado das Salas da curadoria.
+            Conheça o processo de candidatura, avaliação e revisão editorial para colaborar com o acervo.
           </p>
           <ol className="grid gap-6 sm:grid-cols-3 sm:gap-0">
             {passosAnfitriao.map((p, i) => (
@@ -26,13 +26,12 @@ export function SejaAnfitriao() {
             ))}
           </ol>
           <div className="flex flex-wrap items-center gap-6 pt-2">
-            <Botao href="/anfitrioes" variante="grafite">Quero ser anfitrião</Botao>
-            <a href="/anfitrioes#como-funciona" className="text-[15px] font-semibold tracking-[-0.01em] text-bordo hover:underline">Como funciona →</a>
+            <Botao href="/anfitrioes" variante="grafite">Conhecer o processo</Botao>
           </div>
         </div>
         <figure className="flex flex-col items-center gap-4">
           <SeloAnfitriao />
-          <SalaCard sala={salaDemo} tema="claro" degrade={DEGRADE_GRAVURA} className="min-h-[600px] w-full max-w-[384px]" />
+          <SalaCard sala={salaDemo} tema="claro" exemplo degrade={DEGRADE_GRAVURA} className="min-h-[600px] w-full max-w-[384px]" />
           <figcaption className="text-[13px] text-texto-3">Exemplo de Sala de anfitriã (perfil de demonstração)</figcaption>
         </figure>
       </div>
@@ -64,8 +63,8 @@ export function Perguntas({
             <Titulo linha1={linha1} linha2={linha2} tamanho="md" />
           </div>
           <p className="font-serif text-lg text-texto-2">{convite}</p>
-          <a href="mailto:curadoria@saladosbuscadores.org" className="text-[15px] font-semibold tracking-[-0.01em] text-bordo hover:underline">
-            curadoria@saladosbuscadores.org
+          <a href={`mailto:${CURADORIA_EMAIL}`} className="text-[15px] font-semibold tracking-[-0.01em] text-bordo hover:underline">
+            {CURADORIA_EMAIL}
           </a>
         </div>
         <div className="border-b border-bordo/14">
@@ -91,10 +90,10 @@ export function Perguntas({
 }
 
 export function Chamado({
-  linha1 = "Abra espaço para",
-  linha2 = "novas formas de conhecer.",
-  texto = "Uma curadoria de conhecimentos para explorar, questionar e descobrir no seu próprio ritmo.",
-  nota = "A conta é gratuita e guarda seu progresso só para você.",
+  linha1 = "Sua próxima leitura",
+  linha2 = "começa aqui.",
+  texto = "Conheça as Salas e encontre um tema para explorar.",
+  nota,
   acoes,
 }: {
   linha1?: string;
@@ -108,15 +107,13 @@ export function Chamado({
       aria-labelledby="chamado-titulo"
       className="relative isolate flex min-h-[760px] flex-col items-center justify-center gap-7.5 overflow-hidden bg-noite px-5 py-24 text-center sm:px-10 lg:min-h-[860px]"
     >
-      <div
-        aria-hidden
-        className="chamado-fundo absolute inset-x-0 -inset-y-[5%] -z-10"
-        style={{
-          backgroundImage: `radial-gradient(ellipse at center, rgb(11 12 12/.3) 0%, rgb(11 12 12/.8) 100%), linear-gradient(180deg, rgb(11 12 12/.85) 0%, rgb(11 12 12/.55) 50%, rgb(11 12 12/.9) 100%), url("${imagens.escada}")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      <div aria-hidden className="chamado-fundo absolute inset-x-0 -inset-y-[5%] -z-10">
+        <Gravura
+          src={imagens.escada}
+          sizes="100vw"
+          degrade="radial-gradient(ellipse at center, rgb(11 12 12/.3) 0%, rgb(11 12 12/.8) 100%), linear-gradient(180deg, rgb(11 12 12/.85) 0%, rgb(11 12 12/.55) 50%, rgb(11 12 12/.9) 100%)"
+        />
+      </div>
       <h2 id="chamado-titulo" data-revelar="titulo" className="display text-[52px] tracking-[-0.03em] sm:text-[80px] lg:text-[96px]">
         <span className="linha"><span className="block text-marfim">{linha1}</span></span>
         <span className="linha"><span className="block italic text-ouro">{linha2}</span></span>
@@ -125,12 +122,12 @@ export function Chamado({
       <div className="flex flex-wrap justify-center gap-3.5">
         {acoes ?? (
           <>
-            <Botao href={`${SITE_URL}/cadastro`}>Criar conta gratuita</Botao>
-            <Botao href={`${SITE_URL}/entrar`} variante="vidro" seta={false}>Já tenho conta</Botao>
+            <Botao href={`${SITE_URL}/salas`}>Explorar o acervo</Botao>
+            <Botao href={`${SITE_URL}/cadastro`} variante="vidro" seta={false}>Criar conta gratuita</Botao>
           </>
         )}
       </div>
-      <p className="text-[13.5px] text-marfim/55">{nota}</p>
+      {nota && <p className="text-[13.5px] text-marfim/55">{nota}</p>}
     </section>
   );
 }
@@ -139,7 +136,6 @@ const colunasRodape = [
   { h: "Acervo", itens: [["Destaques", "/destaques"], ["Biblioteca", "/biblioteca"], ["Salas", "/salas"], ["Comparar", "/comparar"], ["Assistente", "/assistente"]] },
   { h: "Sobre", itens: [["Como funciona o assistente", "/sobre#assistente"], ["Política editorial", "/sobre#politica-editorial"], ["Política de publicidade", "/sobre#politica-publicidade"]] },
   { h: "Legal", itens: [["Termos em linguagem simples", "/sobre#termos"], ["Privacidade e LGPD", "/sobre#privacidade"]] },
-  { h: "Canal", itens: [["YouTube", "https://www.youtube.com"]] },
 ];
 
 export function Rodape({ colunas = colunasRodape, nota = "A IA organiza o que o acervo diz; não determina qual crença é verdadeira." }: { colunas?: { h: string; itens: string[][] }[]; nota?: string }) {

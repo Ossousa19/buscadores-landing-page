@@ -1,44 +1,41 @@
-import { SITE_URL, conquistas, trilha } from "@/lib/conteudo";
+import { conquistas, trilha } from "@/lib/conteudo";
 import { Botao, Rotulo, Titulo, cx } from "@/components/ui/primitivos";
 import { LeituraTrecho } from "./leitura-trecho";
 
 export function Trilhas() {
   return (
-    <section id="trilhas" aria-labelledby="trilhas-titulo" className="overflow-hidden bg-canvas px-5 pt-24 sm:px-10 lg:px-[120px] lg:pt-[140px]">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-[63px]">
+    <section id="trilhas" data-cena="escada" aria-labelledby="trilhas-titulo" className="escada overflow-clip bg-canvas px-5 pt-24 sm:px-10 lg:px-[120px] lg:pt-[140px]">
+      <div className="escada-palco mx-auto flex max-w-[1200px] flex-col gap-[63px]">
         <div className="flex flex-col justify-between gap-10 lg:flex-row lg:items-end">
           <div className="flex flex-col gap-4">
-            <Rotulo numero="IV">Trilhas</Rotulo>
-            <div id="trilhas-titulo">
-              <Titulo linha1="A porta está aberta;" linha2="a escada é de quem sobe." tamanho="lg" className="tracking-[-0.025em]" />
+            <Rotulo numero="IV">Leituras</Rotulo>
+            <div id="trilhas-titulo" className="escada-titulo">
+              <Titulo linha1="Comece por" linha2="uma leitura." tamanho="lg" className="tracking-[-0.025em]" />
             </div>
           </div>
           <div className="flex max-w-[340px] flex-col items-start gap-4.5">
             <p className="font-serif text-lg leading-[1.55] text-texto-2">
-              {trilha.nome}, na Sala {trilha.sala}. Seu progresso fica guardado, e só você vê.
+              Escolha uma Sala, conheça seu contexto e avance pelos textos e referências.
             </p>
-            <Botao href={`${SITE_URL}/trilhas`} variante="grafite">Começar a trilha</Botao>
+            <Botao href="#salas" variante="grafite">Escolher uma Sala</Botao>
+            <p className="text-[13.5px] text-texto-3">Trilhas guiadas em preparação.</p>
           </div>
         </div>
 
-        <ol data-revelar="escada" aria-label={trilha.nome} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-end lg:gap-0">
+        <ol data-revelar="escada" aria-label={trilha.nome} className="relative grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-end lg:gap-0">
           {trilha.degraus.map((d, i) => {
-            const lido = d.estado === "lido";
-            const andamento = d.estado === "andamento";
+            const ultimo = i === trilha.degraus.length - 1;
             return (
               <li
                 key={d.n}
                 style={{ ["--h" as string]: `${200 + i * 70}px`, ["--i" as string]: i }}
                 className={cx(
-                  "degrau flex flex-col gap-3 rounded-2xl border-bordo/12 px-5.5 py-6.5 lg:h-(--h) lg:flex-1 lg:rounded-none lg:rounded-t-[20px] lg:border-t lg:border-l",
-                  lido ? "bg-ouro" : andamento ? "bg-areia" : "bg-damasco",
+                  "degrau relative flex flex-col gap-3 rounded-2xl border-bordo/12 px-5.5 py-6.5 lg:h-(--h) lg:flex-1 lg:rounded-none lg:rounded-t-[20px] lg:border-t lg:border-l",
+                  ultimo ? "bg-ouro" : i % 2 ? "bg-areia" : "bg-damasco",
                 )}
               >
-                <div className="flex items-center justify-between">
-                  <span className={cx("font-display text-[30px] font-light italic", lido ? "text-bordo" : "text-marca")}>{d.n}</span>
-                  {d.estado && <span className={cx("text-[10.5px] font-semibold tracking-[0.14em] uppercase", lido ? "text-bordo" : "text-marca")}>{lido ? "Lido" : "Em andamento"}</span>}
-                </div>
-                <span className={cx("text-[13px]", lido ? "text-ouro-tinta" : "text-texto-3")}>{d.tipo}</span>
+                <span className={cx("degrau-n origin-left font-display text-[30px] font-light italic", ultimo ? "text-bordo" : "text-marca")}>{d.n}</span>
+                <span className={cx("text-[13px]", ultimo ? "text-ouro-tinta" : "text-texto-3")}>{d.tipo}</span>
                 <h3 className="font-display text-xl leading-[1.18] tracking-[-0.01em] text-grafite">{d.titulo}</h3>
               </li>
             );
@@ -51,13 +48,14 @@ export function Trilhas() {
 
 export function Leitura() {
   const recursos = [
-    { t: "Original e tradução", d: "Alterne ou leia lado a lado, com a edição citada em cada trecho." },
+    { t: "Original e tradução", d: "Alterne ou leia lado a lado, quando disponíveis, com a edição citada." },
     { t: "Glossário da Sala", d: "Demiurgo · grego · δημιουργός · artesão." },
     { t: "Continue de onde parou", d: "Retome a leitura no ponto em que parou." },
   ];
   return (
     <section aria-labelledby="leitura-titulo" className="bg-damasco px-5 py-24 shadow-[0_-1px_0_var(--color-damasco)] sm:px-10 lg:px-[120px] lg:py-[150px]">
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-10 text-center">
+        <h2 className="sr-only">Leitura na fonte</h2>
         <Rotulo numero="V">Leitura na fonte</Rotulo>
         <LeituraTrecho />
         <ul className="mt-[34px] grid w-full gap-8 text-left md:grid-cols-[378fr_411fr_411fr] md:gap-0">
@@ -100,7 +98,7 @@ export function Conquistas() {
           ))}
         </ul>
         <p className="max-w-[560px] text-center font-serif text-lg leading-[1.55] text-marfim/70">
-          Leituras, encontros com as fontes e conexões entre Salas. Só você vê. Cada jornada tem seu próprio ritmo.
+          Leituras, encontros com as fontes e conexões entre Salas. Cada jornada tem seu próprio ritmo.
         </p>
       </div>
     </section>
